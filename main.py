@@ -4,6 +4,7 @@ from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
 from astrbot.api.message_components import Plain
 from astrbot.api import AstrBotConfig
+from astrbot.api.event.filter import PermissionType
 import asyncio
 import re
 import json
