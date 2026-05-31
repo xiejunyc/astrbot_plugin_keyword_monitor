@@ -27,9 +27,9 @@ class KeywordMonitorPlugin(Star):
         """监控群聊中的关键词"""
         try:
             # 检查是否在白名单群聊中
-            group_id = str(event.get_group_id())   
+            group_id = event.get_group_id()   
             logger.warning(f"测试logo: 白名单 {self.white_list}")
-            if group_id not in self.white_list:
+            if str(group_id) not in self.white_list:
                 return
                 
             logger.warning(f"测试logo: 群 {group_id}")
