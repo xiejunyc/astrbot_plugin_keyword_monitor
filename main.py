@@ -13,35 +13,13 @@ class KeywordMonitorPlugin(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
         self.config = config
-        self.config_file = os.path.join(os.path.dirname(__file__), "config.json")
+        self.context = context
+        self.keywords = self.config.get('keywords', [])
+        self.white_list = self.config.get('white_list', [])
+        self.admin_qq = self.config.get('admin_qq')
+        self.enable_sendgroup_list = self.config.get("enable_sendgroup_list", False)
+        self.sendgroup_list = self.config.get('sendgroup_list', [])
         
-        # 加载配置
-        self.load_config()
-        logger.info("关键词监控插件已加载!")
-        self.qq_platform = None  # 初始化QQ平台适配器引用
-    
-    def load_config(self):
-        """从配置文件加载配置"""
-        try:
-            # 如果配置文件存在，则加载
-            if os.path.exists(self.config_file):
-                with open(self.config_file, 'r', encoding='utf-8') as f:
-                    config_data = json.load(f)
-                    self.keywords = config_data.get('keywords', ["重要", "伊蕾娜", "love~"])
-                    self.white_list = config_data.get('white_list', ["987654321", "112233445"])
-                    self.admin_qq = config_data.get('admin_qq', "123456789")
-            else:
-                # 否则使用默认配置
-                self.keywords = ["重要", "伊蕾娜", "love~"]
-                self.white_list = ["987654321", "112233445"]
-                self.admin_qq = "123456789"
-                self.save_config()
-        except Exception as e:
-            logger.error(f"加载配置文件失败: {str(e)}")
-            # 加载失败时使用默认配置
-            self.keywords = ["重要", "伊蕾娜", "love~"]
-            self.white_list = ["987654321", "112233445"]
-            self.admin_qq = "123456789"
 
     def save_config(self):
         """保存配置到文件"""
