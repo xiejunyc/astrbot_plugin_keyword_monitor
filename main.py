@@ -31,6 +31,9 @@ class KeywordMonitorPlugin(Star):
             logger.warning(f"测试log:  {group_id} + {self.white_list}")
             if str(group_id) not in self.white_list:
                 return
+                logger.warning(f"测试log:  1")
+            else:
+                logger.warning(f"测试log:  2")
             
             # 检查消息内容是否包含关键词
             message = event.message_str
