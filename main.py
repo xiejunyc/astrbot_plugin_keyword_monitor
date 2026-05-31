@@ -110,7 +110,9 @@ class KeywordMonitorPlugin(Star):
         if group_id in self.white_list:
             yield event.plain_result(f"❌ 群 {group_id} 已在监控列表中")
         else:
-            self.white_list.append(group_id)
+            self.white_list.add(group_id)
+            target_white_list = list(self.white_list)
+            self.config["white_list"] = target_white_list
             self.config.save_config()
             yield event.plain_result(f"✅ 已添加监控群：{group_id}")
             logger.info(f"管理员添加监控群: {group_id}")
