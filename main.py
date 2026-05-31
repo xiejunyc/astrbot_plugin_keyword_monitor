@@ -55,12 +55,7 @@ class KeywordMonitorPlugin(Star):
             logger.error(f"监控插件出错: {str(e)}")
 
     @filter.command("添加监控词", permission_type=filter.PermissionType.ADMIN)
-    async def add_keyword(self, event: AstrMessageEvent, keyword: str = None):
-        sender_qq = event.get_sender_id()
-        if str(sender_qq) != str(self.admin_qq):
-            yield event.plain_result("❌ 权限不足！仅管理员可使用此命令")
-            return
-        
+    async def add_keyword(self, event: AstrMessageEvent, keyword: str = None):        
         if not keyword:
             yield event.plain_result("❌ 用法：添加监控词 [关键词]")
             return
@@ -75,11 +70,6 @@ class KeywordMonitorPlugin(Star):
 
     @filter.command("删除监控词", permission_type=filter.PermissionType.ADMIN)
     async def del_keyword(self, event: AstrMessageEvent, keyword: str = None):
-        sender_qq = event.get_sender_id()
-        if str(sender_qq) != str(self.admin_qq):
-            yield event.plain_result("❌ 权限不足！仅管理员可使用此命令")
-            return
-        
         if not keyword:
             yield event.plain_result("❌ 用法：删除监控词 [关键词]")
             return
@@ -93,12 +83,7 @@ class KeywordMonitorPlugin(Star):
             logger.info(f"管理员删除关键词: {keyword}")
 
     @filter.command("监控词列表", permission_type=filter.PermissionType.ADMIN)
-    async def list_keywords(self, event: AstrMessageEvent):
-        sender_qq = event.get_sender_id()
-        if str(sender_qq) != str(self.admin_qq):
-            yield event.plain_result("❌ 权限不足！仅管理员可使用此命令")
-            return
-        
+    async def list_keywords(self, event: AstrMessageEvent):      
         if not self.keywords:
             yield event.plain_result("🔍 当前没有监控关键词")
         else:
@@ -125,12 +110,7 @@ class KeywordMonitorPlugin(Star):
             logger.info(f"管理员添加监控群: {group_id}")
 
     @filter.command("删除监控群", permission_type=filter.PermissionType.ADMIN)
-    async def del_monitor_group(self, event: AstrMessageEvent, group_id: str = None):
-        sender_qq = event.get_sender_id()
-        if str(sender_qq) != str(self.admin_qq):
-            yield event.plain_result("❌ 权限不足！仅管理员可使用此命令")
-            return
-        
+    async def del_monitor_group(self, event: AstrMessageEvent, group_id: str = None):     
         if not group_id:
             yield event.plain_result("❌ 用法：删除监控群 [群号]")
             return
@@ -144,12 +124,7 @@ class KeywordMonitorPlugin(Star):
             logger.info(f"管理员移除监控群: {group_id}")
 
     @filter.command("监控群列表", permission_type=filter.PermissionType.ADMIN)
-    async def list_monitor_groups(self, event: AstrMessageEvent):
-        sender_qq = event.get_sender_id()
-        if str(sender_qq) != str(self.admin_qq):
-            yield event.plain_result("❌ 权限不足！仅管理员可使用此命令")
-            return
-        
+    async def list_monitor_groups(self, event: AstrMessageEvent):     
         if not self.white_list:
             yield event.plain_result("🔍 当前没有监控群")
         else:
