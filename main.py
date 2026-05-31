@@ -68,110 +68,107 @@ class KeywordMonitorPlugin(Star):
         except Exception as e:
             logger.error(f"监控插件出错: {str(e)}")
 
-    @filter.command("km", permission_type=filter.PermissionType.ADMIN)
-    async def admin_commands(self, event: AstrMessageEvent, action: str = None, param: str = None):
-        """管理员命令入口"""
-        #验证发送者是否为管理员QQ
+    @filter.command("添加监控词", permission_type=filter.PermissionType.ADMIN)
+    async def add_keyword(self, event: AstrMessageEvent, keyword: str = None):
         sender_qq = event.get_sender_id()
-
-        if not self.admin_qq:
-            yield event.plain_result("❌ 未设置管理员QQ，请联系开发者初始化")
-            return
-
-        if sender_qq != self.admin_qq:
+        if str(sender_qq) != str(self.admin_qq):
             yield event.plain_result("❌ 权限不足！仅管理员可使用此命令")
-            logger.warning(f"非管理员{sender_qq}尝试使用管理员命令")
             return
         
-        # 如果没有提供命令或参数，显示帮助信息
-        if not action:
-            yield event.plain_result(
-                "🔑 关键词监控管理命令 🔑\n"
-                "----------------------\n"
-                "1. 添加关键词: /km add_key [关键词]\n"
-                "2. 删除关键词: /km del_key [关键词]\n"
-                "3. 列出关键词: /km list_keys\n"
-                "4. 添加白名单群: /km add_group [群号]\n"
-                "5. 删除白名单群: /km del_group [群号]\n"
-                "6. 列出白名单: /km list_groups\n"
-                "7. 设置管理员QQ: /km set_admin [QQ号]\n"
-            )
+        if not keyword:
+            yield event.plain_result("❌ 用法：添加监控词 [关键词]")
             return
         
-        action = action.lower()  # 统一转为小写，避免大小写问题
-        param_str = str(param) if param is not None else None
-        
-        # 根据命令类型直接处理逻辑
-        if action == "add_key" and param:
-            # 添加关键词
-            if param in self.keywords:
-                yield event.plain_result(f"❌ 关键词 '{param}' 已存在")
-            else:
-                self.keywords.append(param)
-                self.save_config()
-                yield event.plain_result(f"✅ 已添加关键词: {param}")
-                logger.info(f"管理员添加关键词: {param}")
-        
-        elif action == "del_key" and param:
-            # 删除关键词
-            if param not in self.keywords:
-                yield event.plain_result(f"❌ 关键词 '{param}' 不存在")
-            else:
-                self.keywords.remove(param)
-                self.save_config()
-                yield event.plain_result(f"✅ 已删除关键词: {param}")
-                logger.info(f"管理员删除关键词: {param}")
-        
-        elif action == "list_keys":
-            # 列出所有关键词
-            if not self.keywords:
-                yield event.plain_result("🔍 当前没有监控关键词")
-            else:
-                keywords_list = "\n".join([f"• {kw}" for kw in self.keywords])
-                yield event.plain_result(f"📝 监控关键词列表:\n{keywords_list}")
-        
-        elif action == "add_group" and param:
-            # 添加白名单群
-            if not re.match(r"^\d+$", param_str):
-                yield event.plain_result("❌ 群号必须是纯数字")
-            elif param_str in self.white_list:
-                yield event.plain_result(f"❌ 群 {param_str} 已在白名单中")
-            else:
-                self.white_list.append(param_str)
-                self.save_config()
-                yield event.plain_result(f"✅ 已添加白名单群: {param_str}")
-                logger.info(f"管理员添加白名单群: {param_str}")
-        
-        elif action == "del_group" and param:
-            # 删除白名单群
-            if param_str not in self.white_list:
-                yield event.plain_result(f"❌ 群 {param_str} 不在白名单中")
-            else:
-                self.white_list.remove(param_str)
-                self.save_config()
-                yield event.plain_result(f"✅ 已移除白名单群: {param_str}")
-                logger.info(f"管理员移除白名单群: {param_str}")
-        
-        elif action == "list_groups":
-            # 列出白名单群
-            if not self.white_list:
-                yield event.plain_result("🔍 当前没有白名单群")
-            else:
-                groups_list = "\n".join([f"• {group}" for group in self.white_list])
-                yield event.plain_result(f"📝 白名单群列表:\n{groups_list}")
-        
-        elif action == "set_admin" and param:
-            # 设置管理员QQ
-            if not re.match(r"^\d{5,12}$", param_str):
-                yield event.plain_result("❌ 无效的QQ号格式")
-            else:
-                self.admin_qq = param_str
-                self.save_config()
-                yield event.plain_result(f"✅ 管理员QQ已设置为: {param_str}")
-                logger.info(f"管理员QQ更新为: {param_str}")
-        
+        if keyword in self.keywords:
+            yield event.plain_result(f"❌ 关键词 '{keyword}' 已存在")
         else:
-            yield event.plain_result("❌ 无效命令或参数，请使用 /km 查看帮助")
+            self.keywords.append(keyword)
+            self.save_config()
+            yield event.plain_result(f"✅ 已添加监控词：{keyword}")
+            logger.info(f"管理员添加关键词: {keyword}")
+
+    @filter.command("删除监控词", permission_type=filter.PermissionType.ADMIN)
+    async def del_keyword(self, event: AstrMessageEvent, keyword: str = None):
+        sender_qq = event.get_sender_id()
+        if str(sender_qq) != str(self.admin_qq):
+            yield event.plain_result("❌ 权限不足！仅管理员可使用此命令")
+            return
+        
+        if not keyword:
+            yield event.plain_result("❌ 用法：删除监控词 [关键词]")
+            return
+        
+        if keyword not in self.keywords:
+            yield event.plain_result(f"❌ 关键词 '{keyword}' 不存在")
+        else:
+            self.keywords.remove(keyword)
+            self.save_config()
+            yield event.plain_result(f"✅ 已删除监控词：{keyword}")
+            logger.info(f"管理员删除关键词: {keyword}")
+
+    @filter.command("监控词列表", permission_type=filter.PermissionType.ADMIN)
+    async def list_keywords(self, event: AstrMessageEvent):
+        sender_qq = event.get_sender_id()
+        if str(sender_qq) != str(self.admin_qq):
+            yield event.plain_result("❌ 权限不足！仅管理员可使用此命令")
+            return
+        
+        if not self.keywords:
+            yield event.plain_result("🔍 当前没有监控关键词")
+        else:
+            keywords_list = "\n".join([f"• {kw}" for kw in self.keywords])
+            yield event.plain_result(f"📝 监控词列表：\n{keywords_list}")
+
+    @filter.command("添加监控群", permission_type=filter.PermissionType.ADMIN)
+    async def add_monitor_group(self, event: AstrMessageEvent, group_id: str = None):
+        sender_qq = event.get_sender_id()
+        if str(sender_qq) != str(self.admin_qq):
+            yield event.plain_result("❌ 权限不足！仅管理员可使用此命令")
+            return
+        
+        if not group_id or not re.match(r"^\d+$", group_id):
+            yield event.plain_result("❌ 用法：添加监控群 [纯数字群号]")
+            return
+        
+        if group_id in self.white_list:
+            yield event.plain_result(f"❌ 群 {group_id} 已在监控列表中")
+        else:
+            self.white_list.append(group_id)
+            self.save_config()
+            yield event.plain_result(f"✅ 已添加监控群：{group_id}")
+            logger.info(f"管理员添加监控群: {group_id}")
+
+    @filter.command("删除监控群", permission_type=filter.PermissionType.ADMIN)
+    async def del_monitor_group(self, event: AstrMessageEvent, group_id: str = None):
+        sender_qq = event.get_sender_id()
+        if str(sender_qq) != str(self.admin_qq):
+            yield event.plain_result("❌ 权限不足！仅管理员可使用此命令")
+            return
+        
+        if not group_id:
+            yield event.plain_result("❌ 用法：删除监控群 [群号]")
+            return
+        
+        if group_id not in self.white_list:
+            yield event.plain_result(f"❌ 群 {group_id} 不在监控列表中")
+        else:
+            self.white_list.remove(group_id)
+            self.save_config()
+            yield event.plain_result(f"✅ 已移除监控群：{group_id}")
+            logger.info(f"管理员移除监控群: {group_id}")
+
+    @filter.command("监控群列表", permission_type=filter.PermissionType.ADMIN)
+    async def list_monitor_groups(self, event: AstrMessageEvent):
+        sender_qq = event.get_sender_id()
+        if str(sender_qq) != str(self.admin_qq):
+            yield event.plain_result("❌ 权限不足！仅管理员可使用此命令")
+            return
+        
+        if not self.white_list:
+            yield event.plain_result("🔍 当前没有监控群")
+        else:
+            groups_list = "\n".join([f"• {g}" for g in self.white_list])
+            yield event.plain_result(f"📝 监控群列表：\n{groups_list}")
 
     # 在admin_commands中添加测试命令
     @filter.command("test_alert")
