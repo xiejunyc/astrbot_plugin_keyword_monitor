@@ -140,9 +140,21 @@ class KeywordMonitorPlugin(Star):
     async def list_monitor_groups(self, event: AstrMessageEvent):     
         if not self.white_list:
             yield event.plain_result("🔍 当前没有监控群")
-        else:
-            groups_list = "\n".join([f"• {g}" for g in self.white_list])
-            yield event.plain_result(f"📝 监控群列表：\n{groups_list}")
+            return
+        
+        group_info_list = []
+        for group_id in self.white_list:
+            try:
+                # 异步获取群名称
+                groupinfo = await event.bot.get_group_info(group_id=int(group_id))
+                groupname = groupinfo.get("group_name", "未知群")
+                group_info_list.append(f"• {groupname}({group_id})")
+            except Exception as e:
+                group_info_list.append(f"• 未知群({group_id})")
+                logger.warning(f"获取群 {group_id} 信息失败: {e}")
+        
+        groups_list = "\n".join(group_info_list)
+        yield event.plain_result(f"📝 监控群列表：\n{groups_list}")
     
     async def send_private_alert(self, event: AstrMessageEvent, message: str):
         """发送私聊通知给管理员 - 使用context主动发送消息"""
