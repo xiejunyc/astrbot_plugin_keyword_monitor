@@ -8,7 +8,7 @@
     "type": "list"
   },
   "send_qq": {
-    "description": "接收提醒的好友QQ号",
+    "description": "接收提醒的好友",
     "type": "string",
     "default": ""
   },
