@@ -7,7 +7,7 @@
     "description": "监控的群聊(逗号分隔)",
     "type": "list"
   },
-  "admin_qq": {
+  "send_qq": {
     "description": "接收提醒的好友QQ号",
     "type": "string",
     "default": ""
