@@ -68,7 +68,7 @@ class KeywordMonitorPlugin(Star):
             yield event.plain_result(f"❌ 关键词 '{keyword}' 已存在")
         else:
             self.keywords.append(keyword)
-            self.save_config()
+            self.config.save_config()
             yield event.plain_result(f"✅ 已添加监控词：{keyword}")
             logger.info(f"管理员添加关键词: {keyword}")
 
@@ -87,7 +87,7 @@ class KeywordMonitorPlugin(Star):
             yield event.plain_result(f"❌ 关键词 '{keyword}' 不存在")
         else:
             self.keywords.remove(keyword)
-            self.save_config()
+            self.config.save_config()
             yield event.plain_result(f"✅ 已删除监控词：{keyword}")
             logger.info(f"管理员删除关键词: {keyword}")
 
@@ -119,7 +119,7 @@ class KeywordMonitorPlugin(Star):
             yield event.plain_result(f"❌ 群 {group_id} 已在监控列表中")
         else:
             self.white_list.append(group_id)
-            self.save_config()
+            self.config.save_config()
             yield event.plain_result(f"✅ 已添加监控群：{group_id}")
             logger.info(f"管理员添加监控群: {group_id}")
 
@@ -138,7 +138,7 @@ class KeywordMonitorPlugin(Star):
             yield event.plain_result(f"❌ 群 {group_id} 不在监控列表中")
         else:
             self.white_list.remove(group_id)
-            self.save_config()
+            self.config.save_config()
             yield event.plain_result(f"✅ 已移除监控群：{group_id}")
             logger.info(f"管理员移除监控群: {group_id}")
 
