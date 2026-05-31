@@ -63,7 +63,7 @@ class KeywordMonitorPlugin(Star):
 
     @filter.permission_type(PermissionType.ADMIN)
     @filter.command("添加监控词")
-    async def add_keyword(self, event: AstrMessageEvent, keyword: str = None):        
+    async def add_keyword(self, event: AstrMessageEvent, keyword: str):        
         if not keyword:
             yield event.plain_result("❌ 用法：添加监控词 [关键词]")
             return
