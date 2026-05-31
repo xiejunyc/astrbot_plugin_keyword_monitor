@@ -54,7 +54,8 @@ class KeywordMonitorPlugin(Star):
         except Exception as e:
             logger.error(f"监控插件出错: {str(e)}")
 
-    @filter.command("添加监控词", permission_type=filter.PermissionType.ADMIN)
+    @filter.permission_type(PermissionType.ADMIN)
+    @filter.command("添加监控词")
     async def add_keyword(self, event: AstrMessageEvent, keyword: str = None):        
         if not keyword:
             yield event.plain_result("❌ 用法：添加监控词 [关键词]")
@@ -68,7 +69,8 @@ class KeywordMonitorPlugin(Star):
             yield event.plain_result(f"✅ 已添加监控词：{keyword}")
             logger.info(f"管理员添加关键词: {keyword}")
 
-    @filter.command("删除监控词", permission_type=filter.PermissionType.ADMIN)
+    @filter.permission_type(PermissionType.ADMIN)
+    @filter.command("删除监控词")
     async def del_keyword(self, event: AstrMessageEvent, keyword: str = None):
         if not keyword:
             yield event.plain_result("❌ 用法：删除监控词 [关键词]")
@@ -82,7 +84,8 @@ class KeywordMonitorPlugin(Star):
             yield event.plain_result(f"✅ 已删除监控词：{keyword}")
             logger.info(f"管理员删除关键词: {keyword}")
 
-    @filter.command("监控词列表", permission_type=filter.PermissionType.ADMIN)
+    @filter.permission_type(PermissionType.ADMIN)
+    @filter.command("监控词列表")
     async def list_keywords(self, event: AstrMessageEvent):      
         if not self.keywords:
             yield event.plain_result("🔍 当前没有监控关键词")
@@ -90,7 +93,8 @@ class KeywordMonitorPlugin(Star):
             keywords_list = "\n".join([f"• {kw}" for kw in self.keywords])
             yield event.plain_result(f"📝 监控词列表：\n{keywords_list}")
 
-    @filter.command("添加监控群", permission_type=filter.PermissionType.ADMIN)
+    @filter.permission_type(PermissionType.ADMIN)
+    @filter.command("添加监控群")
     async def add_monitor_group(self, event: AstrMessageEvent, group_id: str = None):      
         if not group_id or not re.match(r"^\d+$", str(group_id)):
             yield event.plain_result("❌ 用法：添加监控群 [纯数字群号]")
@@ -104,7 +108,8 @@ class KeywordMonitorPlugin(Star):
             yield event.plain_result(f"✅ 已添加监控群：{group_id}")
             logger.info(f"管理员添加监控群: {group_id}")
 
-    @filter.command("删除监控群", permission_type=filter.PermissionType.ADMIN)
+    @filter.permission_type(PermissionType.ADMIN)
+    @filter.command("删除监控群")
     async def del_monitor_group(self, event: AstrMessageEvent, group_id: str = None):     
         if not group_id:
             yield event.plain_result("❌ 用法：删除监控群 [群号]")
@@ -118,7 +123,8 @@ class KeywordMonitorPlugin(Star):
             yield event.plain_result(f"✅ 已移除监控群：{group_id}")
             logger.info(f"管理员移除监控群: {group_id}")
 
-    @filter.command("监控群列表", permission_type=filter.PermissionType.ADMIN)
+    @filter.permission_type(PermissionType.ADMIN)
+    @filter.command("监控群列表")
     async def list_monitor_groups(self, event: AstrMessageEvent):     
         if not self.white_list:
             yield event.plain_result("🔍 当前没有监控群")
