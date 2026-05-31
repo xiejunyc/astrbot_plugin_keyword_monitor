@@ -10,7 +10,7 @@ import os
 
 @register("keyword_monitor", "NMpancake", "这是一个关键词监控插件", "1.0.0")
 class KeywordMonitorPlugin(Star):
-    def __init__(self, context: Context, config):
+    def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
         self.config = config
         self.config_file = os.path.join(os.path.dirname(__file__), "config.json")
