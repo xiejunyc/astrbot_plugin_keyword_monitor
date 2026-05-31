@@ -103,7 +103,7 @@ class KeywordMonitorPlugin(Star):
     @filter.permission_type(PermissionType.ADMIN)
     @filter.command("添加监控群")
     async def add_monitor_group(self, event: AstrMessageEvent, group_id: str = None):      
-        if not group_id or not re.match(r"^\d+$", str(group_id)):
+        if not group_id.isdigit():
             yield event.plain_result("❌ 用法：添加监控群 [纯数字群号]")
             return
         
