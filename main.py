@@ -3,6 +3,7 @@ from astrbot.core.platform import MessageType
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
 from astrbot.api.message_components import Plain
+from astrbot.api import AstrBotConfig
 import asyncio
 import re
 import json
