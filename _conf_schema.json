@@ -5,17 +5,23 @@
     "default": ""
   },
   "white_list": {
-    "description": "白名单群号(逗号分隔)",
-    "type": "string",
-    "default": ""
-  },
-  "send_list": {
-    "description": "通知群号(逗号分隔)",
+    "description": "监控的群聊(逗号分隔)",
     "type": "string",
     "default": ""
   },
   "admin_qq": {
-    "description": "管理员QQ号",
+    "description": "接收提醒的好友QQ号",
+    "type": "string",
+    "default": ""
+  },
+  "enable_sendgroup_list": {
+    "description": "开启提醒到群聊",
+    "type": "bool",
+    "hint": "开启后的监控提醒仅发送到群聊，而不是QQ好友",
+    "default": false
+  },
+  "sendgroup_list": {
+    "description": "接收提醒的群聊(逗号分隔)",
     "type": "string",
     "default": ""
   }
