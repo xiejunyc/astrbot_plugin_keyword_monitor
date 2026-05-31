@@ -112,7 +112,7 @@ class KeywordMonitorPlugin(Star):
             yield event.plain_result("❌ 权限不足！仅管理员可使用此命令")
             return
         
-        if not group_id or not re.match(r"^\d+$", group_id):
+        if not group_id or not re.match(r"^\d+$", str(group_id)):
             yield event.plain_result("❌ 用法：添加监控群 [纯数字群号]")
             return
         
