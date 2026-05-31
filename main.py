@@ -29,10 +29,7 @@ class KeywordMonitorPlugin(Star):
             # 检查是否在白名单群聊中
             group_id = event.get_group_id()
             if group_id not in self.white_list:
-                logger.warning(f"测试log:  1")
                 return
-            else:
-                logger.warning(f"测试log:  2")
             
             # 检查消息内容是否包含关键词
             message = event.message_str
