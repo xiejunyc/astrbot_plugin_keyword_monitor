@@ -132,13 +132,6 @@ class KeywordMonitorPlugin(Star):
         else:
             groups_list = "\n".join([f"• {g}" for g in self.white_list])
             yield event.plain_result(f"📝 监控群列表：\n{groups_list}")
-
-    # 在admin_commands中添加测试命令
-    @filter.command("test_alert")
-    async def test_alert(self, event: AstrMessageEvent):
-        """测试警报发送功能"""
-        await self.send_private_alert(event, "这是一条测试警报消息")
-        yield event.plain_result("已发送测试警报，请检查管理员QQ")
     
     async def send_private_alert(self, event: AstrMessageEvent, message: str):
         """发送私聊通知给管理员 - 使用context主动发送消息"""
