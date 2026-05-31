@@ -23,7 +23,7 @@ class KeywordMonitorPlugin(Star):
         self.sendgroup_list = self.config.get('sendgroup_list', [])
 
     @filter.event_message_type(filter.EventMessageType.GROUP_MESSAGE)
-    async def monitor_keywords(self, event: AstrMessageEvent):
+    async def monitor_keywords(self, event: AiocqhttpMessageEvent):
         """监控群聊中的关键词"""
         try:
             # 检查是否在白名单群聊中
@@ -59,7 +59,7 @@ class KeywordMonitorPlugin(Star):
 
     @filter.permission_type(PermissionType.ADMIN)
     @filter.command("添加监控词")
-    async def add_keyword(self, event: AstrMessageEvent, keyword: str = ""):        
+    async def add_keyword(self, event: AiocqhttpMessageEvent, keyword: str = ""):        
         if not keyword:
             yield event.plain_result("❌ 用法：添加监控词 [关键词]")
             return
@@ -74,7 +74,7 @@ class KeywordMonitorPlugin(Star):
 
     @filter.permission_type(PermissionType.ADMIN)
     @filter.command("删除监控词")
-    async def del_keyword(self, event: AstrMessageEvent, keyword: str = ""):
+    async def del_keyword(self, event: AiocqhttpMessageEvent, keyword: str = ""):
         if not keyword:
             yield event.plain_result("❌ 用法：删除监控词 [关键词]")
             return
@@ -89,7 +89,7 @@ class KeywordMonitorPlugin(Star):
 
     @filter.permission_type(PermissionType.ADMIN)
     @filter.command("监控词列表")
-    async def list_keywords(self, event: AstrMessageEvent):      
+    async def list_keywords(self, event: AiocqhttpMessageEvent):      
         if not self.keywords:
             yield event.plain_result("🔍 当前没有监控关键词")
         else:
@@ -98,7 +98,7 @@ class KeywordMonitorPlugin(Star):
 
     @filter.permission_type(PermissionType.ADMIN)
     @filter.command("添加监控群")
-    async def add_monitor_group(self, event: AstrMessageEvent, group_id: str = ""):    
+    async def add_monitor_group(self, event: AiocqhttpMessageEvent, group_id: str = ""):    
         if not group_id:
             yield event.plain_result("❌ 用法：添加监控群 [纯数字群号]")
             return
@@ -117,7 +117,7 @@ class KeywordMonitorPlugin(Star):
 
     @filter.permission_type(PermissionType.ADMIN)
     @filter.command("删除监控群")
-    async def del_monitor_group(self, event: AstrMessageEvent, group_id: str = ""):     
+    async def del_monitor_group(self, event: AiocqhttpMessageEvent, group_id: str = ""):     
         if not group_id:
             yield event.plain_result("❌ 用法：删除监控群 [纯数字群号]")
             return
@@ -136,14 +136,14 @@ class KeywordMonitorPlugin(Star):
 
     @filter.permission_type(PermissionType.ADMIN)
     @filter.command("监控群列表")
-    async def list_monitor_groups(self, event: AstrMessageEvent):     
+    async def list_monitor_groups(self, event: AiocqhttpMessageEvent):     
         if not self.white_list:
             yield event.plain_result("🔍 当前没有监控群")
         else:
             groups_list = "\n".join([f"• {g}" for g in self.white_list])
             yield event.plain_result(f"📝 监控群列表：\n{groups_list}")
     
-    async def send_private_alert(self, event: AstrMessageEvent, message: str):
+    async def send_private_alert(self, event: AiocqhttpMessageEvent, message: str):
         """发送私聊通知给管理员 - 使用context主动发送消息"""
         try:
             if not self.admin_qq or not self.admin_qq.isdigit():
