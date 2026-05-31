@@ -19,21 +19,6 @@ class KeywordMonitorPlugin(Star):
         self.admin_qq = self.config.get('admin_qq')
         self.enable_sendgroup_list = self.config.get("enable_sendgroup_list", False)
         self.sendgroup_list = self.config.get('sendgroup_list', [])
-        
-
-    def save_config(self):
-        """保存配置到文件"""
-        try:
-            config_data = {
-                'keywords': self.keywords,
-                'white_list': self.white_list,
-                'admin_qq': self.admin_qq
-            }
-            with open(self.config_file, 'w', encoding='utf-8') as f:
-                json.dump(config_data, f, ensure_ascii=False, indent=2)
-            logger.info("配置文件已保存")
-        except Exception as e:
-            logger.error(f"保存配置文件失败: {str(e)}")
 
     @filter.event_message_type(filter.EventMessageType.GROUP_MESSAGE)
     async def monitor_keywords(self, event: AstrMessageEvent):
