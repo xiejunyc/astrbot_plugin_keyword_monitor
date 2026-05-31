@@ -41,7 +41,7 @@ class KeywordMonitorPlugin(Star):
                     
                     # 构建通知消息
                     alert_msg = (
-                        f"⚠️ 检测到监控词 ⚠️\n"
+                        f"⚠️ 监控词警报 ⚠️\n"
                         f"监控词: {keyword}\n"
                         f"群号: {group_id}\n"
                         f"发送者: {sender_name}({sender_id})\n"
