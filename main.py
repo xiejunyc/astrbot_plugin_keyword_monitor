@@ -20,7 +20,7 @@ class KeywordMonitorPlugin(Star):
         self.white_list = self.config.get('white_list', [])
         self.send_qq = self.config.get('send_qq')
         self.enable_sendgroup = self.config.get("enable_sendgroup", False)
-        self.send_group = self.config.get('send_group', [])
+        self.send_group = self.config.get('send_group')
 
     @filter.event_message_type(filter.EventMessageType.GROUP_MESSAGE)
     async def monitor_keywords(self, event: AstrMessageEvent):
