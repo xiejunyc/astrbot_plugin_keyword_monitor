@@ -30,6 +30,9 @@ class KeywordMonitorPlugin(Star):
             group_id = event.get_group_id()
             if group_id not in self.white_list:
                 return
+
+            groupinfo = await event.bot.get_group_info(group_id=group_id)
+            groupname = groupinfo.get("group_name", "未知群")
             
             # 检查消息内容是否包含关键词
             message = event.message_str
@@ -43,7 +46,7 @@ class KeywordMonitorPlugin(Star):
                     alert_msg = (
                         f"⚠️ 监控词警报 ⚠️\n"
                         f"监控词: {keyword}\n"
-                        f"群号: {group_id}\n"
+                        f"群号: {group_id}({groupname})\n"
                         f"发送者: {sender_name}({sender_id})\n"
                         f"消息内容: {message[:50]}{'...' if len(message) > 50 else ''}"
                     )
