@@ -2,16 +2,21 @@
   "keywords": {
     "description": "监控关键词(逗号分隔)",
     "type": "string",
-    "default": "重要,伊蕾娜,love~"
+    "default": ""
   },
   "white_list": {
     "description": "白名单群号(逗号分隔)",
     "type": "string",
-    "default": "987654321,112233445"
+    "default": ""
+  },
+  "send_list": {
+    "description": "通知群号(逗号分隔)",
+    "type": "string",
+    "default": ""
   },
   "admin_qq": {
     "description": "管理员QQ号",
     "type": "string",
-    "default": "123456789"
+    "default": ""
   }
 }
