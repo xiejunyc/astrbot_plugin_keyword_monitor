@@ -17,7 +17,7 @@ class KeywordMonitorPlugin(Star):
         self.config = config
         self.context = context
         self.keywords = self.config.get('keywords', [])
-        self.white_list = self.config.get('white_list', [])
+        self.white_list = set(self.config.get('white_list', []))
         self.admin_qq = self.config.get('admin_qq')
         self.enable_sendgroup_list = self.config.get("enable_sendgroup_list", False)
         self.sendgroup_list = self.config.get('sendgroup_list', [])
