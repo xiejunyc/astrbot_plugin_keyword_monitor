@@ -41,8 +41,8 @@ class KeywordMonitorPlugin(Star):
                     
                     # 构建通知消息
                     alert_msg = (
-                        f"⚠️ 检测到关键词警报 ⚠️\n"
-                        f"关键词: {keyword}\n"
+                        f"⚠️ 检测到监控词 ⚠️\n"
+                        f"监控词: {keyword}\n"
                         f"群号: {group_id}\n"
                         f"发送者: {sender_name}({sender_id})\n"
                         f"消息内容: {message[:50]}{'...' if len(message) > 50 else ''}"
