@@ -19,7 +19,7 @@
     "default": false
   },
   "sendgroup_list": {
-    "description": "接收提醒的群聊(逗号分隔)",
-    "type": "list"
+    "description": "接收提醒的群聊",
+    "type": "string"
   }
 }
