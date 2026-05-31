@@ -102,7 +102,11 @@ class KeywordMonitorPlugin(Star):
 
     @filter.permission_type(PermissionType.ADMIN)
     @filter.command("添加监控群")
-    async def add_monitor_group(self, event: AstrMessageEvent, group_id: str = None):      
+    async def add_monitor_group(self, event: AstrMessageEvent, group_id: str = None):    
+        if not group_id:
+            yield event.plain_result("❌ 用法：添加监控群 [纯数字群号]")
+            return
+            
         if not group_id.isdigit():
             yield event.plain_result("❌ 用法：添加监控群 [纯数字群号]")
             return
@@ -119,7 +123,11 @@ class KeywordMonitorPlugin(Star):
     @filter.command("删除监控群")
     async def del_monitor_group(self, event: AstrMessageEvent, group_id: str = None):     
         if not group_id:
-            yield event.plain_result("❌ 用法：删除监控群 [群号]")
+            yield event.plain_result("❌ 用法：删除监控群 [纯数字群号]")
+            return
+
+        if not group_id.isdigit():
+            yield event.plain_result("❌ 用法：删除监控群 [纯数字群号]")
             return
         
         if group_id not in self.white_list:
