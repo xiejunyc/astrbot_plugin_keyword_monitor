@@ -149,22 +149,13 @@ class KeywordMonitorPlugin(Star):
             if not self.send_qq or not self.send_qq.isdigit():
                 logger.error("管理员QQ号无效（为空或非数字）")
                 return
-            # 1. 构建管理员私聊的唯一标识符（unified_msg_origin）
-            # 格式：平台名称:消息类型:管理员QQ号
-            admin_unified_msg_origin = f"aiocqhttp:{MessageType.FRIEND_MESSAGE.value}:{self.send_qq}"
-            
-            # 2. 构建消息链（包含警报文本）
-            message_chain = MessageChain([Plain(text=message)])
-            
-            # 3. 使用context的send_message主动发送到管理员私聊
-            # 该方法需传入目标会话标识和消息链
-            success = await self.context.send_message(admin_unified_msg_origin, message_chain)
-            
-            if success:
+
+            try:
+                await event.bot.send_private_msg(user_id=self.send_qq, message=message)
                 logger.info(f"已向管理员 {self.send_qq} 发送私聊警报")
-            else:
-                logger.error(f"发送私聊警报失败，未找到管理员会话")
-                
+            except Exception as e:
+                logger.error(f"发送私聊警报失败：{e}")
+            
         except Exception as e:
             logger.error(f"发送私聊通知失败: {str(e)}")
            
