@@ -145,19 +145,33 @@ class KeywordMonitorPlugin(Star):
     
     async def send_private_alert(self, event: AstrMessageEvent, message: str):
         """发送私聊通知给管理员 - 使用context主动发送消息"""
-        try:
+        if self.enable_sendgroup_list:
+            if not self.sendgroup_list
+                logger.error("无效群号（为空）")
+                return
+
+            # 遍历配置的所有群号，逐个发送
+            for group_id in self.sendgroup_list:
+                if not group_id.isdigit():
+                    logger.error(f"无效群号（非数字：{group_id}），已跳过")
+                    continue
+
+                try:
+                    # 调用QQ协议发送群消息
+                    await event.bot.send_group_msg(group_id=group_id, message=message)
+                    logger.info(f"已向群聊 {group_id} 发送警报")
+                except Exception as e:
+                    logger.error(f"发送警报失败：{e}")
+        else:
             if not self.send_qq or not self.send_qq.isdigit():
-                logger.error("管理员QQ号无效（为空或非数字）")
+                logger.error("QQ号无效（为空或非数字）")
                 return
 
             try:
                 await event.bot.send_private_msg(user_id=self.send_qq, message=message)
-                logger.info(f"已向管理员 {self.send_qq} 发送私聊警报")
+                logger.info(f"已向好友 {self.send_qq} 发送警报")
             except Exception as e:
-                logger.error(f"发送私聊警报失败：{e}")
-            
-        except Exception as e:
-            logger.error(f"发送私聊通知失败: {str(e)}")
+                logger.error(f"发送警报失败：{e}")
            
 
     async def terminate(self):
