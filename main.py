@@ -32,7 +32,9 @@ class KeywordMonitorPlugin(Star):
                 return
             
             # 检查消息内容是否包含关键词
+            logger.warning(f"测试log:  {group_id}")
             message = event.message_str
+            logger.warning(f"测试log:  {message}")
             logger.warning(f"测试log:  {keyword} + {self.keywords}")
             for keyword in self.keywords:
                 if keyword in message:
