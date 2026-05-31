@@ -1,13 +1,11 @@
 {
   "keywords": {
     "description": "监控关键词(逗号分隔)",
-    "type": "string",
-    "default": ""
+    "type": "list"
   },
   "white_list": {
     "description": "监控的群聊(逗号分隔)",
-    "type": "string",
-    "default": ""
+    "type": "list"
   },
   "admin_qq": {
     "description": "接收提醒的好友QQ号",
@@ -22,7 +20,6 @@
   },
   "sendgroup_list": {
     "description": "接收提醒的群聊(逗号分隔)",
-    "type": "string",
-    "default": ""
+    "type": "list"
   }
 }
