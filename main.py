@@ -146,7 +146,7 @@ class KeywordMonitorPlugin(Star):
     async def send_private_alert(self, event: AstrMessageEvent, message: str):
         """发送私聊通知给管理员 - 使用context主动发送消息"""
         if self.enable_sendgroup_list:
-            if not self.sendgroup_list
+            if not self.sendgroup_list:
                 logger.error("无效群号（为空）")
                 return
 
