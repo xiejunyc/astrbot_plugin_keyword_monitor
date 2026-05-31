@@ -17,7 +17,7 @@ class KeywordMonitorPlugin(Star):
         self.config = config
         self.context = context
         self.keywords = self.config.get('keywords', [])
-        self.white_list = set(self.config.get('white_list', []))
+        self.white_list = self.config.get('white_list', [])
         self.admin_qq = self.config.get('admin_qq')
         self.enable_sendgroup_list = self.config.get("enable_sendgroup_list", False)
         self.sendgroup_list = self.config.get('sendgroup_list', [])
@@ -110,9 +110,7 @@ class KeywordMonitorPlugin(Star):
         if group_id in self.white_list:
             yield event.plain_result(f"❌ 群 {group_id} 已在监控列表中")
         else:
-            self.white_list.add(group_id)
-            target_white_list = list(self.white_list)
-            self.config["white_list"] = target_white_list
+            self.white_list.append(group_id)
             self.config.save_config()
             yield event.plain_result(f"✅ 已添加监控群：{group_id}")
             logger.info(f"管理员添加监控群: {group_id}")
