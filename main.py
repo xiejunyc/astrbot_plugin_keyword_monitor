@@ -18,7 +18,7 @@ class KeywordMonitorPlugin(Star):
         self.context = context
         self.keywords = self.config.get('keywords', [])
         self.white_list = self.config.get('white_list', [])
-        self.admin_qq = self.config.get('admin_qq')
+        self.send_qq = self.config.get('send_qq')
         self.enable_sendgroup_list = self.config.get("enable_sendgroup_list", False)
         self.sendgroup_list = self.config.get('sendgroup_list', [])
 
@@ -146,12 +146,12 @@ class KeywordMonitorPlugin(Star):
     async def send_private_alert(self, event: AiocqhttpMessageEvent, message: str):
         """发送私聊通知给管理员 - 使用context主动发送消息"""
         try:
-            if not self.admin_qq or not self.admin_qq.isdigit():
+            if not self.send_qq or not self.send_qq.isdigit():
                 logger.error("管理员QQ号无效（为空或非数字）")
                 return
             # 1. 构建管理员私聊的唯一标识符（unified_msg_origin）
             # 格式：平台名称:消息类型:管理员QQ号
-            admin_unified_msg_origin = f"aiocqhttp:{MessageType.FRIEND_MESSAGE.value}:{self.admin_qq}"
+            admin_unified_msg_origin = f"aiocqhttp:{MessageType.FRIEND_MESSAGE.value}:{self.send_qq}"
             
             # 2. 构建消息链（包含警报文本）
             message_chain = MessageChain([Plain(text=message)])
@@ -161,7 +161,7 @@ class KeywordMonitorPlugin(Star):
             success = await self.context.send_message(admin_unified_msg_origin, message_chain)
             
             if success:
-                logger.info(f"已向管理员 {self.admin_qq} 发送私聊警报")
+                logger.info(f"已向管理员 {self.send_qq} 发送私聊警报")
             else:
                 logger.error(f"发送私聊警报失败，未找到管理员会话")
                 
@@ -171,4 +171,4 @@ class KeywordMonitorPlugin(Star):
 
     async def terminate(self):
         """插件卸载时执行"""
-        logger.info("关键词监控插件已卸载")
+        logger.info("监控插件已卸载")
