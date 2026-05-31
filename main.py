@@ -19,7 +19,7 @@ class KeywordMonitorPlugin(Star):
         self.keywords = self.config.get('keywords', [])
         self.white_list = self.config.get('white_list', [])
         self.send_qq = self.config.get('send_qq')
-        self.enable_sendgroup_list = self.config.get("enable_sendgroup_list", False)
+        self.enable_sendgroup = self.config.get("enable_sendgroup", False)
         self.sendgroup_list = self.config.get('sendgroup_list', [])
 
     @filter.event_message_type(filter.EventMessageType.GROUP_MESSAGE)
@@ -143,7 +143,7 @@ class KeywordMonitorPlugin(Star):
     
     async def send_private_alert(self, event: AstrMessageEvent, message: str):
         """发送私聊通知给管理员 - 使用context主动发送消息"""
-        if self.enable_sendgroup_list:
+        if self.enable_sendgroup:
             if not self.sendgroup_list:
                 logger.error("无效群号（为空）")
                 return
