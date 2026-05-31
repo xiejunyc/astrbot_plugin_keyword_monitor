@@ -91,12 +91,7 @@ class KeywordMonitorPlugin(Star):
             yield event.plain_result(f"📝 监控词列表：\n{keywords_list}")
 
     @filter.command("添加监控群", permission_type=filter.PermissionType.ADMIN)
-    async def add_monitor_group(self, event: AstrMessageEvent, group_id: str = None):
-        sender_qq = event.get_sender_id()
-        if str(sender_qq) != str(self.admin_qq):
-            yield event.plain_result("❌ 权限不足！仅管理员可使用此命令")
-            return
-        
+    async def add_monitor_group(self, event: AstrMessageEvent, group_id: str = None):      
         if not group_id or not re.match(r"^\d+$", str(group_id)):
             yield event.plain_result("❌ 用法：添加监控群 [纯数字群号]")
             return
