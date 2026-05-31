@@ -63,7 +63,7 @@ class KeywordMonitorPlugin(Star):
 
     @filter.permission_type(PermissionType.ADMIN)
     @filter.command("添加监控词")
-    async def add_keyword(self, event: AstrMessageEvent, keyword: str = None):        
+    async def add_keyword(self, event: AstrMessageEvent, keyword: str = ""):        
         if not keyword:
             yield event.plain_result("❌ 用法：添加监控词 [关键词]")
             return
@@ -78,7 +78,7 @@ class KeywordMonitorPlugin(Star):
 
     @filter.permission_type(PermissionType.ADMIN)
     @filter.command("删除监控词")
-    async def del_keyword(self, event: AstrMessageEvent, keyword: str = None):
+    async def del_keyword(self, event: AstrMessageEvent, keyword: str = ""):
         if not keyword:
             yield event.plain_result("❌ 用法：删除监控词 [关键词]")
             return
@@ -121,7 +121,7 @@ class KeywordMonitorPlugin(Star):
 
     @filter.permission_type(PermissionType.ADMIN)
     @filter.command("删除监控群")
-    async def del_monitor_group(self, event: AstrMessageEvent, group_id: str = None):     
+    async def del_monitor_group(self, event: AstrMessageEvent, group_id: str = ""):     
         if not group_id:
             yield event.plain_result("❌ 用法：删除监控群 [纯数字群号]")
             return
