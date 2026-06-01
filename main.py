@@ -166,8 +166,6 @@ class KeywordMonitorPlugin(Star):
             except Exception as e:
                 logger.error(f"发送警报失败：{e}")
 
-        
-
         if not self.send_qq or not self.send_qq.isdigit():
             logger.error("QQ号无效（为空或非数字）")
         else:
@@ -177,7 +175,6 @@ class KeywordMonitorPlugin(Star):
             except Exception as e:
                 logger.error(f"发送警报失败：{e}")
 
-        
     async def terminate(self):
         """插件卸载时执行"""
         logger.info("监控插件已卸载")
