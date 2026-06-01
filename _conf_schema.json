@@ -12,12 +12,6 @@
     "type": "string",
     "default": ""
   },
-  "enable_sendgroup": {
-    "description": "开启提醒到群聊",
-    "type": "bool",
-    "hint": "开启后的监控提醒仅发送到群聊，而不是QQ好友",
-    "default": false
-  },
   "send_group": {
     "description": "接收提醒的群聊",
     "type": "string",
