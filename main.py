@@ -19,7 +19,6 @@ class KeywordMonitorPlugin(Star):
         self.keywords = self.config.get('keywords', [])
         self.white_list = self.config.get('white_list', [])
         self.send_qq = self.config.get('send_qq')
-        self.enable_sendgroup = self.config.get("enable_sendgroup", False)
         self.send_group = self.config.get('send_group')
 
     @filter.event_message_type(filter.EventMessageType.GROUP_MESSAGE)
@@ -158,28 +157,27 @@ class KeywordMonitorPlugin(Star):
     
     async def send_private_alert(self, event: AstrMessageEvent, message: str):
         """发送私聊通知给管理员 - 使用context主动发送消息"""
-        if self.enable_sendgroup:
-            if not self.send_group or not self.send_group.isdigit():
-                logger.error("QQ群无效（为空或非数字）")
-                return
+        if not self.send_group or not self.send_group.isdigit():
+            logger.error("QQ群无效（为空或非数字）")
+            return
 
-            try:
-                await event.bot.send_group_msg(group_id=self.send_group, message=message)
-                logger.info(f"已向群聊 {self.send_group} 发送警报")
-            except Exception as e:
-                logger.error(f"发送警报失败：{e}")
-        else:
-            if not self.send_qq or not self.send_qq.isdigit():
-                logger.error("QQ号无效（为空或非数字）")
-                return
+        try:
+            await event.bot.send_group_msg(group_id=self.send_group, message=message)
+            logger.info(f"已向群聊 {self.send_group} 发送警报")
+        except Exception as e:
+            logger.error(f"发送警报失败：{e}")
 
-            try:
-                await event.bot.send_private_msg(user_id=self.send_qq, message=message)
-                logger.info(f"已向好友 {self.send_qq} 发送警报")
-            except Exception as e:
-                logger.error(f"发送警报失败：{e}")
+        if not self.send_qq or not self.send_qq.isdigit():
+            logger.error("QQ号无效（为空或非数字）")
+            return
+
+        try:
+            await event.bot.send_private_msg(user_id=self.send_qq, message=message)
+            logger.info(f"已向好友 {self.send_qq} 发送警报")
+        except Exception as e:
+            logger.error(f"发送警报失败：{e}")
+            
            
-
     async def terminate(self):
         """插件卸载时执行"""
         logger.info("监控插件已卸载")
