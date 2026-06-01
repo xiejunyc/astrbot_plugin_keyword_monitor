@@ -1,4 +1,4 @@
-name: keyword_monitor # 这是你的插件的唯一识别名。
+name: "监控词提醒" # 这是你的插件的唯一识别名。
 desc: 这是一个插件用来提醒我群里出现了我所标记的关键词 # 插件简短描述
 version: v1.0.0 # 插件版本号。格式：v1.1.1 或者 v1.1
 author: NMpancake # 作者
