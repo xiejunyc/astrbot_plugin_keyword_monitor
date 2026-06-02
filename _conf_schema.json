@@ -1,10 +1,10 @@
 {
   "keywords": {
-    "description": "监控关键词(逗号分隔)",
+    "description": "监控关键词",
     "type": "list"
   },
   "white_list": {
-    "description": "监控的群聊(逗号分隔)",
+    "description": "监控的群聊",
     "type": "list"
   },
   "send_qq": {
